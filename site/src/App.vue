@@ -7,6 +7,9 @@
   br
   hr
   Demo
+  br
+  hr
+  Scenarios
 </template>
 
 <script>
@@ -14,6 +17,7 @@ import { defineComponent } from 'vue'
 import Header from './views/header/index.vue'
 import Demo from './views/demo/index.vue'
 import Playground from './views/playground/index.vue'
+import Scenarios from './views/scenarios/index.vue'
 
 export default defineComponent({
   name: 'App',
@@ -21,6 +25,7 @@ export default defineComponent({
     Header,
     Demo,
     Playground,
+    Scenarios,
   },
 })
 </script>
