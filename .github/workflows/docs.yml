@@ -25,6 +25,7 @@ jobs:
 
       - name: Build docs
         run: |
+          yarn install
           cd site
           yarn install
           yarn upgrade yup-schema-faker
@@ -35,7 +36,7 @@ jobs:
           git config --global user.email actions@users.noreply.github.com
           git config --global user.name "Action"
           git add docs --force
-          git commit -m"docs: update"
+          git commit -m"docs: update" --no-verify
 
       - name: Push changes
         uses: ad-m/github-push-action@master
