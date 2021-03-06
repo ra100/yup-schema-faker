@@ -1,20 +1,10 @@
 name: DOCS
 
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   docs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Waiting for publishing
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '5m'
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -26,6 +16,7 @@ jobs:
       - name: Build docs
         run: |
           cd site
+          yarn global add husky
           yarn install
           yarn build
           sed -i 's/assets/yup-schema-faker\/assets/' ./dist/index.html
