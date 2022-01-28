@@ -7,7 +7,7 @@
 ![last commit](https://img.shields.io/github/last-commit/iendeavor/yup-schema-faker/main)
 [![donate](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-blue)](https://www.paypal.com/paypalme/iendeavor)
 
-## Version Compatibiility
+## Version Compatibility
 
 | yup                                                    | @types/yup                                          | yup-schema-faker                                                      |
 | ------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------------------------- |
