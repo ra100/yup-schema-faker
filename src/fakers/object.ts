@@ -4,7 +4,7 @@ import { MixedFaker } from './mixed'
 import { isReference } from '../util'
 import { addFaker, globalOptions } from './base'
 
-import type { AnySchema, ObjectSchema } from 'yup'
+import type { Schema, ObjectSchema } from 'yup'
 import type { Options } from '../type'
 
 export class ObjectFaker extends MixedFaker<ObjectSchema<any>> {
@@ -16,14 +16,14 @@ export class ObjectFaker extends MixedFaker<ObjectSchema<any>> {
         .filter(key => isReference(this.schema.fields[key]) === false)
         .reduce((object, key) => {
           return Object.assign(object, {
-            [key]: ObjectFaker.rootFake(this.schema.fields[key] as AnySchema, { ...options, parent: result }),
+            [key]: ObjectFaker.rootFake(this.schema.fields[key] as Schema, { ...options, parent: result }),
           })
         }, result),
       ...fields
         .filter(key => isReference(this.schema.fields[key]))
         .reduce((object, key) => {
           return Object.assign(object, {
-            [key]: ObjectFaker.rootFake(this.schema.fields[key] as AnySchema, { ...options, parent: result }),
+            [key]: ObjectFaker.rootFake(this.schema.fields[key] as Schema, { ...options, parent: result }),
           })
         }, result),
     }

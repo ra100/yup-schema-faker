@@ -1,11 +1,11 @@
 import { datatype } from './install'
-import { AnySchema } from 'yup'
+import { Schema } from 'yup'
 import { globalOptions, typeToFaker } from './fakers/base'
 import { MixedFaker } from './fakers/mixed'
 import { Fake, Options } from './type'
 import { isLazy, isReference } from './util'
 
-export function rootFake<Schema extends AnySchema>(schema: Schema, options: Options = {}): ReturnType<Fake<Schema>> {
+export function rootFake<S extends Schema>(schema: S, options: Options = {}): ReturnType<Fake<S>> {
   const originalStrict = globalOptions.strict
   globalOptions.strict = options.strict || schema.spec?.strict || originalStrict
 
@@ -28,6 +28,6 @@ export function rootFake<Schema extends AnySchema>(schema: Schema, options: Opti
   return result
 }
 
-export function fake<Schema extends AnySchema>(schema: Schema, options?: Pick<Options, 'context' | 'strict'>) {
+export function fake<S extends Schema>(schema: S, options?: Pick<Options, 'context' | 'strict'>) {
   return rootFake(schema, options)
 }

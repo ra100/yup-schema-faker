@@ -2,13 +2,13 @@ import { datatype } from '../install'
 import { boolean, number, string, date, mixed } from 'yup'
 import { BaseFaker, addFaker } from './base'
 
-import type { AnySchema } from 'yup'
+import type { Schema } from 'yup'
 import type { Options } from '../type'
 
-const schemaConstructors: (() => AnySchema)[] = [boolean, number, string, date]
+const schemaConstructors: (() => Schema)[] = [boolean, number, string, date]
 
-export class MixedFaker<Schema extends AnySchema> extends BaseFaker<Schema> {
-  constructor(schema: Schema) {
+export class MixedFaker<S extends Schema> extends BaseFaker<S> {
+  constructor(schema: S) {
     super(schema)
     this.schema = schema
   }

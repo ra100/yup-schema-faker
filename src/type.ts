@@ -1,9 +1,9 @@
-import type { AnySchema } from 'yup'
+import type { Schema } from 'yup'
 
-export type Fake<Schema extends AnySchema> = (schema: AnySchema, options?: Options) => ReturnType<Schema['cast']>
+export type Fake<S extends Schema> = (schema: Schema, options?: Options) => ReturnType<S['cast']>
 
-export interface FakeSchema<Schema extends AnySchema = AnySchema> {
-  (schema: Schema, fake: Fake<AnySchema>): any
+export interface FakeSchema<S extends Schema = Schema> {
+  (schema: S, fake: Fake<Schema>): any
 }
 
 export interface Options {
