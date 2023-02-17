@@ -1,5 +1,45 @@
-import { boolean, number, date, string, array, object } from 'yup'
-import { fake } from '../src'
+import {
+  addMethod,
+  array,
+  boolean,
+  date,
+  number,
+  object,
+  string,
+  ArraySchema,
+  BooleanSchema,
+  DateSchema,
+  NumberSchema,
+  ObjectSchema,
+  Schema,
+  StringSchema,
+} from 'yup'
+import { fake, Fake } from '../src'
+
+declare module 'yup' {
+  interface Schema {
+    fake<TSchema extends Schema>(this: TSchema): ReturnType<Fake<TSchema>>
+  }
+}
+
+addMethod(BooleanSchema, 'fake', function () {
+  return fake(this as Schema)
+})
+addMethod(DateSchema, 'fake', function () {
+  return fake(this as Schema)
+})
+addMethod(NumberSchema, 'fake', function () {
+  return fake(this as Schema)
+})
+addMethod(StringSchema, 'fake', function () {
+  return fake(this as Schema)
+})
+addMethod(ObjectSchema, 'fake', function () {
+  return fake(this as Schema)
+})
+addMethod(ArraySchema, 'fake', function () {
+  return fake(this as Schema)
+})
 
 it('should add fake method to yup', () => {
   const booleanSchema = boolean().defined()

@@ -1,17 +1,17 @@
-import { addMethod, string, mixed, array } from 'yup'
+import { addMethod, string, mixed, array, StringSchema } from 'yup'
 import { fake, fakeDedicatedTest } from '../../src'
 import { expectType, TypeEqual } from 'ts-expect'
 
-import type { AnySchema } from 'yup'
+import type { Schema } from 'yup'
 
 declare module 'yup' {
   interface StringSchema {
-    json<Schema extends AnySchema>(this: Schema, schema: AnySchema): Schema
+    json<S extends Schema>(this: S, schema: Schema): S
   }
 }
 
 beforeAll(() => {
-  addMethod(string, 'json', function (schema: AnySchema) {
+  addMethod(StringSchema, 'json', function (schema: Schema) {
     return this.test({
       name: 'json',
       params: {
@@ -46,21 +46,21 @@ it('should be a valid schema', () => {
 it("fakeFn's parameter schema should be same as given schema", () => {
   fakeDedicatedTest(string, 'json', schema => {
     expectType<TypeEqual<typeof schema, ReturnType<typeof string>>>(true)
-    expectType<TypeEqual<typeof schema, AnySchema>>(false)
+    expectType<TypeEqual<typeof schema, Schema>>(false)
     return JSON.stringify(null)
   })
 })
 
 it('should be allowed to add dedicated test', () => {
   fakeDedicatedTest(string, 'json', schema => {
-    const innerSchema = schema.tests.find(test => test.OPTIONS.name === 'json')?.OPTIONS.params?.schema as AnySchema
+    const innerSchema = schema.tests.find(test => test.OPTIONS?.name === 'json')?.OPTIONS?.params?.schema as AnySchema
     return fake(innerSchema)
   })
 })
 
 it('should run dedicated test', () => {
   fakeDedicatedTest(string, 'json', schema => {
-    const innerSchema = schema.tests.find(test => test.OPTIONS.name === 'json')?.OPTIONS.params?.schema as AnySchema
+    const innerSchema = schema.tests.find(test => test.OPTIONS?.name === 'json')?.OPTIONS?.params?.schema as AnySchema
     return JSON.stringify(fake(innerSchema))
   })
 

@@ -1,4 +1,4 @@
-import { boolean } from 'yup'
+import { boolean, BooleanSchema } from 'yup'
 import { fake } from '../src'
 import { SAFE_COUNT } from './constant'
 
@@ -9,7 +9,7 @@ it('should works with default', () => {
   let count = 0
   let actual
   do {
-    actual = fake(schema)
+    actual = fake<BooleanSchema>(schema)
   } while (defaultCb.mock.calls.length === 0 && ++count < SAFE_COUNT)
   expect(actual).toBe(defaultData)
 })

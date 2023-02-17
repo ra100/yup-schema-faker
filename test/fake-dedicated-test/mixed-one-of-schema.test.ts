@@ -1,17 +1,17 @@
-import { addMethod, mixed } from 'yup'
+import { addMethod, mixed, MixedSchema } from 'yup'
 import { fake, fakeDedicatedTest } from '../../src'
 import { expectType, TypeEqual } from 'ts-expect'
 
-import type { AnySchema } from 'yup'
+import type { AnySchema, Schema } from 'yup'
 
 declare module 'yup' {
   interface BaseSchema {
-    oneOfSchema<Schema extends AnySchema>(this: Schema, schemas: AnySchema[]): Schema
+    oneOfSchema<S extends Schema>(this: S, schemas: Schema[]): S
   }
 }
 
 beforeAll(() => {
-  addMethod(mixed, 'oneOfSchema', function (schemas) {
+  addMethod(MixedSchema, 'oneOfSchema', function (schemas) {
     // eslint-disable-next-line no-template-curly-in-string
     const message = '${path} is not a correct type'
 
@@ -52,7 +52,7 @@ it("fakeFn's parameter schema should be same as given schema", () => {
 
 it('should be allowed to add dedicated test', () => {
   fakeDedicatedTest(mixed, 'oneOfSchema', schema => {
-    const innerSchema = schema.tests.find(test => test.OPTIONS.name === 'oneOfSchema')?.OPTIONS.params
+    const innerSchema = schema.tests.find(test => test.OPTIONS?.name === 'oneOfSchema')?.OPTIONS?.params
       ?.schema as AnySchema
     return fake(innerSchema)
   })
@@ -60,7 +60,7 @@ it('should be allowed to add dedicated test', () => {
 
 it('should run dedicated test', () => {
   fakeDedicatedTest(mixed, 'oneOfSchema', schema => {
-    const innerSchemas = schema.tests.find(test => test.OPTIONS.name === 'oneOfSchema')?.OPTIONS.params
+    const innerSchemas = schema.tests.find(test => test.OPTIONS?.name === 'oneOfSchema')?.OPTIONS?.params
       ?.schemas as AnySchema[]
     const pickedSchema = innerSchemas[Math.floor(Math.random() * innerSchemas.length)]
     return fake(pickedSchema)

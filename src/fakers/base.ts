@@ -47,9 +47,8 @@ export abstract class BaseFaker<S extends Schema> {
 
   protected fakeUndefined(): [boolean, any?] {
     if (
-      this.schema.spec.default === undefined &&
-      datatype.float({ min: 0, max: 1 }) > 0.9 &&
-      this.schema.tests.some(test => ['required', 'defined'].includes(test.OPTIONS.name!)) === false
+      datatype.float({ min: 0, max: 1 }) > 0.8 &&
+      this.schema.tests.some(test => ['required', 'defined'].includes(test.OPTIONS?.name!)) === false
     )
       return [true, undefined]
 
@@ -60,7 +59,7 @@ export abstract class BaseFaker<S extends Schema> {
     if (
       datatype.float({ min: 0, max: 1 }) > 0.9 &&
       this.schema.spec.nullable &&
-      this.schema.tests.some(test => test.OPTIONS.name === 'required') === false
+      this.schema.tests.some(test => test.OPTIONS?.name === 'required') === false
     )
       return [true, null]
 
@@ -90,10 +89,10 @@ export abstract class BaseFaker<S extends Schema> {
 
   protected fakeDedicatedTest(): [boolean, any?] {
     const dedicatedTest = this.schema.tests.find(
-      test => BaseFaker.dedicatedTests[this.schema.type]?.[test.OPTIONS.name!] !== undefined,
+      test => BaseFaker.dedicatedTests[this.schema.type]?.[test.OPTIONS?.name!] !== undefined,
     )
     if (dedicatedTest)
-      return [true, BaseFaker.dedicatedTests[this.schema.type][dedicatedTest.OPTIONS.name!](this.schema)]
+      return [true, BaseFaker.dedicatedTests[this.schema.type][dedicatedTest.OPTIONS?.name!](this.schema)]
 
     return [false]
   }
@@ -104,7 +103,7 @@ export abstract class BaseFaker<S extends Schema> {
 export function fakeDedicatedTest<SchemaConstructor extends (...args: any[]) => Schema>(
   schemaConstructor: SchemaConstructor,
   name: string,
-  fakeFn: (schema: ReturnType<SchemaConstructor>) => ReturnType<ReturnType<SchemaConstructor>['cast']>,
+  fakeFn: (schema: Schema) => any,
 ) {
   if (schemaConstructor === undefined || isSchema(schemaConstructor) === false)
     throw new TypeError('You must provide a yup schema constructor function')

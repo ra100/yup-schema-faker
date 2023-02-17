@@ -1,11 +1,11 @@
-import { array, number, object } from 'yup'
+import { Schema, array, object, number } from 'yup'
 import { fake } from '../src'
 import { SAFE_COUNT } from './constant'
 
 it('should works with default', () => {
   const defaultData: any[] = []
   const defaultCb = jest.fn(() => defaultData)
-  const schema = array().default(defaultCb)
+  const schema = array().default(defaultCb) as unknown as Schema
   let count = 0
   let actual
   do {
